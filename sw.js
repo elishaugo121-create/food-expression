@@ -1,5 +1,5 @@
-/* Food Expression offline cache */
-const CACHE='food-expression-v1';
+/* Food Expression shop — offline cache */
+const CACHE='fe-shop-v2';
 const SHELL=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));
@@ -9,11 +9,13 @@ self.addEventListener('activate',e=>{
 });
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
-  e.respondWith(
-    caches.match(e.request).then(hit=>hit||fetch(e.request).then(res=>{
-      const copy=res.clone();
-      caches.open(CACHE).then(c=>c.put(e.request,copy));
-      return res;
-    }).catch(()=>caches.match('./index.html')))
-  );
+  const req=e.request;
+  if(req.mode==='navigate'){
+    e.respondWith(fetch(req).then(res=>{const c=res.clone();caches.open(CACHE).then(x=>x.put('./index.html',c));return res;})
+      .catch(()=>caches.match('./index.html')));
+    return;
+  }
+  e.respondWith(caches.match(req).then(hit=>hit||fetch(req).then(res=>{
+    const c=res.clone();caches.open(CACHE).then(x=>x.put(req,c));return res;
+  }).catch(()=>caches.match('./index.html'))));
 });
