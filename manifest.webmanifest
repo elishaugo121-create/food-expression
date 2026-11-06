@@ -1,0 +1,15 @@
+{
+  "name": "Food Expression Business Manager",
+  "short_name": "Food Expression",
+  "description": "Fresh. Affordable. Delivered Nationwide. Shop foodstuffs and manage sales, stock and profit.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#164e2b",
+  "theme_color": "#164e2b",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
